@@ -23,10 +23,12 @@
  *
  */
 
-package open.queues;
+package queuing.open;
 
 
-import open.exceptions.UnstableQueueException;
+import queuing.common.Clazz;
+import queuing.common.QueuingMathTools;
+import queuing.exceptions.UnstableQueueException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

@@ -23,60 +23,44 @@
  *
  */
 
-package open.queues;
-
-import java.util.Arrays;
+package queuing.common;
 
 /**
  * @author Diego Didona, didona@gsd.inesc-id.pt
  *         Date: 01/10/12
  */
-public abstract class AbstractOpenMMK extends AbstractMMK {
+public abstract class Clazz {
 
+   protected int clazz;
+   protected double serviceTime;
 
-   protected OpenClazz[] serviceTimes;
-
-
-   protected AbstractOpenMMK(double numServers, OpenClazz... serviceTimes) {
-      super(numServers);
-      this.serviceTimes = serviceTimes;
+   public int getClazz() {
+      return clazz;
    }
 
-
-   public double getClassServiceTime(int clazz) {
-      return serviceTimes[clazz].getServiceTime();
+   public double getServiceTime() {
+      return serviceTime;
    }
 
-
-   public abstract double utilization(int clazz);
-
-   public final double utilization() {
-      double ro = 0D;
-      for (Clazz c : this.serviceTimes)
-         ro += this.utilization(c.getClazz());
-      return ro;
+   public void setServiceTime(double serviceTime) {
+      this.serviceTime = serviceTime;
    }
 
-
-   public OpenClazz[] getOpenClazzes() {
-      return Arrays.copyOf(serviceTimes, serviceTimes.length, OpenClazz[].class);
+   protected Clazz(int clazz, double serviceTime) {
+      this.clazz = clazz;
+      this.serviceTime = serviceTime;
    }
 
-
-   protected double effectiveLambda() {
-      double sum = 0D;
-      OpenClazz openClazz;
-      for (Clazz c : this.serviceTimes) {
-         openClazz = (OpenClazz) c;
-         sum += getLambdaIfAlsoMu(openClazz);
-      }
-      return sum;
+   protected Clazz(int clazz) {
+      this.clazz = clazz;
    }
 
-   protected double getLambdaIfAlsoMu(OpenClazz o) {
-      if (o.getServiceTime() != 0)
-         return o.getLambda();
-      return 0D;
+   @Override
+   public String toString() {
+      return "Clazz{" +
+              "clazz=" + clazz +
+              ", serviceTime=" + serviceTime +
+              '}';
    }
 
 

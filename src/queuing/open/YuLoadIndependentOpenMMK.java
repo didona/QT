@@ -23,8 +23,10 @@
  *
  */
 
-package open.queues;
+package queuing.open;
 
+
+import queuing.common.QueuingMathTools;
 
 /**
  * @author Diego Didona, didona@gsd.inesc-id.pt

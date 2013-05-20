@@ -1,4 +1,4 @@
-package open.exceptions;/*
+package queuing.exceptions;/*
  * INESC-ID, Instituto de Engenharia de Sistemas e Computadores Investigação e Desevolvimento em Lisboa
  * Copyright 2013 INESC-ID and/or its affiliates and other
  * contributors as indicated by the @author tags. All rights reserved.
@@ -25,9 +25,9 @@ package open.exceptions;/*
  * @author Diego Didona, didona@gsd.inesc-id.pt
  *         Date: 20/05/13
  */
-public abstract class QueueException extends Exception{
-
-   protected QueueException(String s) {
-      super(s);
+public class UnsolvedQueueException extends QueueException {
+   public UnsolvedQueueException(String id) {
+      super("Queue "+ id+" has not been initialized. Check you have invoked the solve method " +
+              "even after having injected additional load");
    }
 }

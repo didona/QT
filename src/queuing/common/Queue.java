@@ -23,9 +23,9 @@
  *
  */
 
-package open.queues;
+package queuing.common;
 
-import open.exceptions.UnstableQueueException;
+import queuing.exceptions.UnstableQueueException;
 
 
 /**

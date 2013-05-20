@@ -23,61 +23,16 @@
  *
  */
 
-package open.queues;
-
-
-import open.exceptions.UnstableQueueException;
+package queuing.exceptions;
 
 /**
  * @author Diego Didona, didona@gsd.inesc-id.pt
  *         Date: 01/10/12
  */
-public abstract class AbstractMMK implements Queue {
+public class UnstableQueueException extends QueueException {
 
-   protected double numServers;
-
-   protected double ro;
-
-   protected double additionalLoad;
-
-   protected String ID;
-
-   protected boolean solved  = false;
-
-
-   public AbstractMMK(double numServers) {
-      this.numServers = numServers;
-   }
-
-   public final void solve() throws UnstableQueueException {
-      flowInflowOut();
-      solved = true;
-   }
-
-   public void setID(String ID) {
-      this.ID = ID;
-   }
-
-   public final double getClassResponseTime(int clazz) {
-      double service = this.getClassServiceTime(clazz);
-      return getResponseTimeByServiceTime(service);
-   }
-
-   protected abstract double getClassServiceTime(int clazz);
-
-   public abstract double avgQueueingTime();
-
-
-   protected abstract void flowInflowOut() throws UnstableQueueException;
-
-
-   public void injectLoad(double additionalLoad) {
-      this.additionalLoad = additionalLoad;
-      solved = false;
-   }
-
-   public double getNumServers() {
-      return numServers;
+   public UnstableQueueException(String s) {
+      super(s);
    }
 
 

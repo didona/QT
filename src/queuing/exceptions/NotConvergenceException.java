@@ -23,17 +23,16 @@
  *
  */
 
-package open.exceptions;
+package queuing.exceptions;
+
 
 /**
  * @author Diego Didona, didona@gsd.inesc-id.pt
- *         Date: 01/10/12
+ *         Date: 04/10/12
  */
-public class UnstableQueueException extends QueueException {
+public class NotConvergenceException extends Exception{
 
-   public UnstableQueueException(String s) {
+   public NotConvergenceException(String s) {
       super(s);
    }
-
-
 }

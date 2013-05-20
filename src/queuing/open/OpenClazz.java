@@ -23,16 +23,54 @@
  *
  */
 
-package open.exceptions;
+package queuing.open;
 
+import queuing.common.Clazz;
 
 /**
  * @author Diego Didona, didona@gsd.inesc-id.pt
- *         Date: 04/10/12
+ *         Date: 02/10/12
  */
-public class NotConvergenceException extends Exception{
+public class OpenClazz extends Clazz {
 
-   public NotConvergenceException(String s) {
-      super(s);
+   private double lambda;
+
+   public double getLambda() {
+      return lambda;
    }
+
+   public OpenClazz(int clazz) {
+      super(clazz);
+   }
+
+   public OpenClazz(int clazz, double serviceTime, double lambda) {
+      super(clazz, serviceTime);
+      this.lambda = lambda;
+   }
+
+
+   public void setLambda(double lambda) {
+      this.lambda = lambda;
+   }
+
+   @Override
+   public String toString() {
+      return "OpenClazz{" +
+              "class=" + clazz +
+              " lambda=" + lambda +
+              " serviceTime=" + serviceTime +
+              " l/m=" + (lambda * serviceTime) +
+              '}';
+   }
+
+   public String toString(double servers) {
+      return "OpenClazz{" +
+              "class=" + clazz +
+              " lambda=" + lambda +
+              " serviceTime=" + serviceTime +
+              " l/m=" + (lambda * serviceTime) / servers +
+              '}';
+   }
+
+
 }

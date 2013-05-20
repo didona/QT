@@ -23,49 +23,62 @@
  *
  */
 
-package open.queues;
+package queuing.common;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import queuing.exceptions.UnstableQueueException;
 
 /**
  * @author Diego Didona, didona@gsd.inesc-id.pt
  *         Date: 01/10/12
  */
-public class QueuingMathTools {
+public abstract class AbstractMMK implements Queue {
+
+   protected double numServers;
+
+   protected double ro;
+
+   protected double additionalLoad;
+
+   protected String ID;
+
+   protected boolean solved  = false;
 
 
-   private static double[] facCache;
-   private static int max = 0;
-   private static final Log log = LogFactory.getLog(QueuingMathTools.class);
-
-   private static void init(int newMax) {
-      log.trace("QueuingMathTools: initializing the factorial cache with max value = " + newMax);
-      double[] newFacCache = new double[newMax + 1];
-      System.arraycopy(facCache, 0, newFacCache, 0, facCache.length);
-      for (int i = facCache.length; i <= newMax; i++) {
-         newFacCache[i] = realFac(i);
-      }
-      max = newMax;
-      facCache = newFacCache;
+   public AbstractMMK(double numServers) {
+      this.numServers = numServers;
    }
 
-   private static double realFac(int n) {
-      if (n < 0)
-         throw new RuntimeException("Factorial invoked on a negative number");
-      if (n == 0 || n == 1)
-         return 1;
-      return n * fac(n - 1);
+   public final void solve() throws UnstableQueueException {
+      flowInflowOut();
+      solved = true;
+   }
+
+   public void setID(String ID) {
+      this.ID = ID;
+   }
+
+   public final double getClassResponseTime(int clazz) {
+      double service = this.getClassServiceTime(clazz);
+      return getResponseTimeByServiceTime(service);
+   }
+
+   protected abstract double getClassServiceTime(int clazz);
+
+   public abstract double avgQueueingTime();
+
+
+   protected abstract void flowInflowOut() throws UnstableQueueException;
+
+
+   public void injectLoad(double additionalLoad) {
+      this.additionalLoad = additionalLoad;
+      solved = false;
+   }
+
+   public double getNumServers() {
+      return numServers;
    }
 
 
-   static double fac(int n) {
-      if (n > max)
-         init(n);
-      return facCache[n];
-   }
-
-   static double pow(double a, double b) {
-      return Math.pow(a, b);
-   }
 }

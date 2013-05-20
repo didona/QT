@@ -23,44 +23,63 @@
  *
  */
 
-package open.queues;
+package queuing.open;
+
+import queuing.common.AbstractMMK;
+import queuing.common.Clazz;
+
+import java.util.Arrays;
 
 /**
  * @author Diego Didona, didona@gsd.inesc-id.pt
  *         Date: 01/10/12
  */
-public abstract class Clazz {
+public abstract class AbstractOpenMMK extends AbstractMMK {
 
-   protected int clazz;
-   protected double serviceTime;
 
-   public int getClazz() {
-      return clazz;
+   protected OpenClazz[] serviceTimes;
+
+
+   protected AbstractOpenMMK(double numServers, OpenClazz... serviceTimes) {
+      super(numServers);
+      this.serviceTimes = serviceTimes;
    }
 
-   public double getServiceTime() {
-      return serviceTime;
+
+   public double getClassServiceTime(int clazz) {
+      return serviceTimes[clazz].getServiceTime();
    }
 
-   public void setServiceTime(double serviceTime) {
-      this.serviceTime = serviceTime;
+
+   public abstract double utilization(int clazz);
+
+   public final double utilization() {
+      double ro = 0D;
+      for (Clazz c : this.serviceTimes)
+         ro += this.utilization(c.getClazz());
+      return ro;
    }
 
-   protected Clazz(int clazz, double serviceTime) {
-      this.clazz = clazz;
-      this.serviceTime = serviceTime;
+
+   public OpenClazz[] getOpenClazzes() {
+      return Arrays.copyOf(serviceTimes, serviceTimes.length, OpenClazz[].class);
    }
 
-   protected Clazz(int clazz) {
-      this.clazz = clazz;
+
+   protected double effectiveLambda() {
+      double sum = 0D;
+      OpenClazz openClazz;
+      for (Clazz c : this.serviceTimes) {
+         openClazz = (OpenClazz) c;
+         sum += getLambdaIfAlsoMu(openClazz);
+      }
+      return sum;
    }
 
-   @Override
-   public String toString() {
-      return "Clazz{" +
-              "clazz=" + clazz +
-              ", serviceTime=" + serviceTime +
-              '}';
+   protected double getLambdaIfAlsoMu(OpenClazz o) {
+      if (o.getServiceTime() != 0)
+         return o.getLambda();
+      return 0D;
    }
 
 

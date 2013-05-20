@@ -23,52 +23,49 @@
  *
  */
 
-package open.queues;
+package queuing.common;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Diego Didona, didona@gsd.inesc-id.pt
- *         Date: 02/10/12
+ *         Date: 01/10/12
  */
-public class OpenClazz extends Clazz {
+public class QueuingMathTools {
 
-   private double lambda;
 
-   public double getLambda() {
-      return lambda;
+   private static double[] facCache;
+   private static int max = 0;
+   private static final Log log = LogFactory.getLog(QueuingMathTools.class);
+
+   private static void init(int newMax) {
+      log.trace("QueuingMathTools: initializing the factorial cache with max value = " + newMax);
+      double[] newFacCache = new double[newMax + 1];
+      System.arraycopy(facCache, 0, newFacCache, 0, facCache.length);
+      for (int i = facCache.length; i <= newMax; i++) {
+         newFacCache[i] = realFac(i);
+      }
+      max = newMax;
+      facCache = newFacCache;
    }
 
-   public OpenClazz(int clazz) {
-      super(clazz);
-   }
-
-   public OpenClazz(int clazz, double serviceTime, double lambda) {
-      super(clazz, serviceTime);
-      this.lambda = lambda;
-   }
-
-
-   public void setLambda(double lambda) {
-      this.lambda = lambda;
-   }
-
-   @Override
-   public String toString() {
-      return "OpenClazz{" +
-              "class=" + clazz +
-              " lambda=" + lambda +
-              " serviceTime=" + serviceTime +
-              " l/m=" + (lambda * serviceTime) +
-              '}';
-   }
-
-   public String toString(double servers) {
-      return "OpenClazz{" +
-              "class=" + clazz +
-              " lambda=" + lambda +
-              " serviceTime=" + serviceTime +
-              " l/m=" + (lambda * serviceTime) / servers +
-              '}';
+   private static double realFac(int n) {
+      if (n < 0)
+         throw new RuntimeException("Factorial invoked on a negative number");
+      if (n == 0 || n == 1)
+         return 1;
+      return n * fac(n - 1);
    }
 
 
+   static double fac(int n) {
+      if (n > max)
+         init(n);
+      return facCache[n];
+   }
+
+   static double pow(double a, double b) {
+      return Math.pow(a, b);
+   }
 }
