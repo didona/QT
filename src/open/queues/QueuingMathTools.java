@@ -32,20 +32,22 @@ import org.apache.commons.logging.LogFactory;
  * @author Diego Didona, didona@gsd.inesc-id.pt
  *         Date: 01/10/12
  */
-public class Util {
+public class QueuingMathTools {
 
 
    private static double[] facCache;
-   private static boolean active = false;
-   private static final Log log = LogFactory.getLog(Util.class);
+   private static int max = 0;
+   private static final Log log = LogFactory.getLog(QueuingMathTools.class);
 
-   public static void init(int max) {
-      //System.out.println("Util: initing the factorial cache with max value = " + max);
-      facCache = new double[max + 1];
-      for (int i = 0; i < max + 1; i++) {
-         facCache[i] = realFac(i);
+   private static void init(int newMax) {
+      log.trace("QueuingMathTools: initializing the factorial cache with max value = " + newMax);
+      double[] newFacCache = new double[newMax + 1];
+      System.arraycopy(facCache, 0, newFacCache, 0, facCache.length);
+      for (int i = facCache.length; i <= newMax; i++) {
+         newFacCache[i] = realFac(i);
       }
-      active = true;
+      max = newMax;
+      facCache = newFacCache;
    }
 
    private static double realFac(int n) {
@@ -58,15 +60,9 @@ public class Util {
 
 
    static double fac(int n) {
-      try {
-         return facCache[n];
-      } catch (IndexOutOfBoundsException i) {
-         return realFac(n);
-      } catch (NullPointerException nu) {
-         System.err.println("Remember to invoke Util.init() before invoking this code. This *MUST* be fixed");
-         throw nu;
-      }
-
+      if (n > max)
+         init(n);
+      return facCache[n];
    }
 
    static double pow(double a, double b) {

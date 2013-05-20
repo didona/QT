@@ -75,10 +75,10 @@ public class LoadIndependentOpenMMK extends AbstractOpenMMK {
 
 
    private double computeP0(double ro, double m) throws UnstableQueueException {
-      double sum = (Util.pow(m * ro, m) / Util.fac((int) m)) * (1.0D / (1.0D - ro));
+      double sum = (QueuingMathTools.pow(m * ro, m) / QueuingMathTools.fac((int) m)) * (1.0D / (1.0D - ro));
 
       for (double k = 0; k < m; k++) {
-         sum += Util.pow(m * ro, k) / Util.fac((int) k);
+         sum += QueuingMathTools.pow(m * ro, k) / QueuingMathTools.fac((int) k);
       }
 
       return 1.0D / sum;
@@ -132,7 +132,7 @@ public class LoadIndependentOpenMMK extends AbstractOpenMMK {
 
 
    private double avgQueueingProb(double ro, double p0, double m) {
-      return (Util.pow(m * ro, m) / Util.fac((int) m)) * (p0 / (1.0D - ro));
+      return (QueuingMathTools.pow(m * ro, m) / QueuingMathTools.fac((int) m)) * (p0 / (1.0D - ro));
 
    }
 

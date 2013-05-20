@@ -36,7 +36,7 @@ public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
    private double yuA() {
       double ro = this.ro;
       double k = this.numServers;
-      return Math.pow((k * ro), k) / ((1.0D - ro) * Util.fac((int) k));
+      return Math.pow((k * ro), k) / ((1.0D - ro) * QueuingMathTools.fac((int) k));
    }
 
    private double yuB() {
@@ -45,7 +45,7 @@ public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
       double ro = this.ro;
 
       for (int i = 0; i < k; i++) {
-         sum += Math.pow((k * ro), i) / Util.fac(i);
+         sum += Math.pow((k * ro), i) / QueuingMathTools.fac(i);
       }
       return sum;
    }
