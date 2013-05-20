@@ -33,12 +33,6 @@ package open.queues;
 public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
 
 
-   protected double __responseTime(int clazz) {
-      double service = this.getClassServiceTime(clazz);
-      double y = yuY();
-      return service * y;
-   }
-
    private double yuA() {
       double ro = this.ro;
       double k = this.numServers;
@@ -56,12 +50,7 @@ public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
       return sum;
    }
 
-   public double getResponseTimeByServiceTime(double service) {
-      double y = yuY();
-      return service * y;
-   }
-
-   public double yuY() {
+   private double yuY() {
       double k = this.numServers;
       double a = yuA();
       double b = yuB();
@@ -70,16 +59,35 @@ public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
       return 1 + (a / den);
    }
 
+   @Override
+   public double avgQueueingTime() {
+      return yuY() - 1;
+   }
+
+
+   public YuLoadIndependentOpenMMK(double numServers, OpenClazz... serviceTimes) {
+      super(numServers, serviceTimes);    //To change body of overridden methods use File | Settings | File Templates.
+   }
+
+
+   /*
+      public double getResponseTimeByServiceTime(double service) {
+         double y = yuY();
+         return service * y;
+      }
+
+       protected double __responseTime(int clazz) {
+         double service = this.getClassServiceTime(clazz);
+         double y = yuY();
+         return service * y;
+      }
+      */
+
 
    public void forceUtilization(double r) {
       if (r < 1)
          this.ro = r;
    }
-
-   public YuLoadIndependentOpenMMK(double numServers, Clazz... serviceTimes) {
-      super(numServers, serviceTimes);    //To change body of overridden methods use File | Settings | File Templates.
-   }
-
 
    public double debugA() {
       return yuA();
@@ -89,13 +97,5 @@ public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
       return yuB();
    }
 
-   @Override
-   public double avgQueueingTime() {
-      double k = this.numServers;
-      double a = yuA();
-      double b = yuB();
-      double ro = this.ro;
-      double den = (k * (a + b) * (1.0D - ro));
-      return a / den;
-   }
+
 }

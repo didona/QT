@@ -38,7 +38,11 @@ public abstract class AbstractMMK implements Queue {
 
    protected double ro;
 
+   protected double additionalLoad;
+
    protected String ID;
+
+   protected boolean solved  = false;
 
 
    public AbstractMMK(double numServers) {
@@ -47,39 +51,30 @@ public abstract class AbstractMMK implements Queue {
 
    public final void solve() throws UnstableQueueException {
       flowInflowOut();
+      solved = true;
    }
 
    public void setID(String ID) {
       this.ID = ID;
    }
 
-   /*
-   public final double getClassResponseTime() {
-      return this.getClassResponseTime(0);
-   }
-   */
-   /*
-   If the avgServiceTime given when initializing is relevant to a multiclass
-    */
    public final double getClassResponseTime(int clazz) {
       double service = this.getClassServiceTime(clazz);
-      return service != 0 ? __responseTime(clazz) : 0D;
+      return getResponseTimeByServiceTime(service);
    }
-
-
-   protected abstract double __responseTime(int clazz);
-
 
    protected abstract double getClassServiceTime(int clazz);
 
    public abstract double avgQueueingTime();
 
-   public abstract double avgQueueingProb();
-
-   public abstract double _effectiveLambda();
 
    protected abstract void flowInflowOut() throws UnstableQueueException;
 
+
+   public void injectLoad(double additionalLoad) {
+      this.additionalLoad = additionalLoad;
+      solved = false;
+   }
 
    public double getNumServers() {
       return numServers;

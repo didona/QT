@@ -34,6 +34,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Diego Didona, didona@gsd.inesc-id.pt
  *         Date: 01/10/12
  */
+
 public class LoadIndependentOpenMMK extends AbstractOpenMMK {
 
 
@@ -43,14 +44,10 @@ public class LoadIndependentOpenMMK extends AbstractOpenMMK {
    private final static Log log = LogFactory.getLog(LoadIndependentOpenMMK.class);
 
 
-   public LoadIndependentOpenMMK(double numServers, Clazz... serviceTimes) {
+   public LoadIndependentOpenMMK(double numServers, OpenClazz... serviceTimes) {
       super(numServers, serviceTimes);
    }
 
-   @Override
-   protected double __responseTime(int clazz) {
-      return this.getClassServiceTime(clazz) + this.avgQueueingTime();
-   }
 
    public double getResponseTimeByServiceTime(double service) {
       return service + this.avgQueueingTime();
@@ -64,7 +61,7 @@ public class LoadIndependentOpenMMK extends AbstractOpenMMK {
    }
 
 
-   public double getRo() {
+   public double getUtilization() {
       return this.ro;
    }
 
@@ -119,7 +116,7 @@ public class LoadIndependentOpenMMK extends AbstractOpenMMK {
 
    @Override
    public double utilization(int clazz) {
-      OpenClazz o = (OpenClazz) this.serviceTimes[clazz];
+      OpenClazz o = this.serviceTimes[clazz];
       return this.ro(this.numServers, o);
    }
 
@@ -128,7 +125,7 @@ public class LoadIndependentOpenMMK extends AbstractOpenMMK {
          System.out.println(o);
    }
 
-   @Override
+
    public double avgQueueingProb() {
       return this.avgQueueingProb(ro, p0, numServers);
    }

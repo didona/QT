@@ -34,11 +34,10 @@ import java.util.Arrays;
 public abstract class AbstractOpenMMK extends AbstractMMK {
 
 
-   protected Clazz[] serviceTimes;
+   protected OpenClazz[] serviceTimes;
 
-   private boolean WEIGHT_ENABLED = true;
 
-   protected AbstractOpenMMK(double numServers, Clazz... serviceTimes) {
+   protected AbstractOpenMMK(double numServers, OpenClazz... serviceTimes) {
       super(numServers);
       this.serviceTimes = serviceTimes;
    }
@@ -46,18 +45,6 @@ public abstract class AbstractOpenMMK extends AbstractMMK {
 
    public double getClassServiceTime(int clazz) {
       return serviceTimes[clazz].getServiceTime();
-   }
-
-
-   protected final double avgServiceTime(OpenClazz[] serviceTimes) {
-      double sum = 0D;
-      double totalLambda = this.effectiveLambda();
-      OpenClazz openClazz;
-      for (Clazz c : serviceTimes) {
-         openClazz = (OpenClazz) c;
-         sum += c.getServiceTime() * openClazz.getLambda() / totalLambda;
-      }
-      return sum;
    }
 
 
@@ -86,29 +73,11 @@ public abstract class AbstractOpenMMK extends AbstractMMK {
       return sum;
    }
 
-   private double referenceServiceTime() {
-      double max = 0D;
-      double temp;
-      for (Clazz c : this.serviceTimes) {
-         temp = c.getServiceTime();
-         if (temp > max)
-            max = temp;
-      }
-      return max;
-   }
-
-   public double _effectiveLambda() {
-      return this.effectiveLambda();
-   }
-
    protected double getLambdaIfAlsoMu(OpenClazz o) {
       if (o.getServiceTime() != 0)
-         return o.getLambda() * weight(o);
+         return o.getLambda();
       return 0D;
    }
 
 
-   protected double weight(OpenClazz o) {
-      return WEIGHT_ENABLED ? o.getServiceTime() / referenceServiceTime() : 1;
-   }
 }

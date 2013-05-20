@@ -38,10 +38,17 @@ public interface Queue {
 
    public double getResponseTimeByServiceTime(double serviceTime);
 
-   public double getRo();
+   public double getUtilization();
 
    public void solve() throws UnstableQueueException;
 
    public void setID(String id);
+
+   /**
+    * Inject additional utilization to the queue, in order to model loads which are not relevant to
+    * service classes, e.g., garbage collection
+    * @param additionalLoad
+    */
+   public void injectLoad(double additionalLoad);
 
 }

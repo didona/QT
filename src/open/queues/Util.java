@@ -25,6 +25,9 @@
 
 package open.queues;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * @author Diego Didona, didona@gsd.inesc-id.pt
  *         Date: 01/10/12
@@ -33,6 +36,8 @@ public class Util {
 
 
    private static double[] facCache;
+   private static boolean active = false;
+   private static final Log log = LogFactory.getLog(Util.class);
 
    public static void init(int max) {
       //System.out.println("Util: initing the factorial cache with max value = " + max);
@@ -40,6 +45,7 @@ public class Util {
       for (int i = 0; i < max + 1; i++) {
          facCache[i] = realFac(i);
       }
+      active = true;
    }
 
    private static double realFac(int n) {
