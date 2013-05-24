@@ -59,13 +59,13 @@ public class QueuingMathTools {
    }
 
 
-   static double fac(int n) {
+   public static double fac(int n) {
       if (n > max)
          init(n);
       return facCache[n];
    }
 
-   static double pow(double a, double b) {
+   public static double pow(double a, double b) {
       return Math.pow(a, b);
    }
 }

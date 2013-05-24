@@ -45,6 +45,10 @@ public abstract class AbstractOpenMMK extends AbstractMMK {
       this.serviceTimes = serviceTimes;
    }
 
+   public void setClasses(OpenClazz... serviceTimes){
+      this.serviceTimes = serviceTimes;
+   }
+
 
    public double getClassServiceTime(int clazz) {
       return serviceTimes[clazz].getServiceTime();
