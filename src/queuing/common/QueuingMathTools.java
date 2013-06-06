@@ -42,8 +42,10 @@ public class QueuingMathTools {
    private static void init(int newMax) {
       log.trace("QueuingMathTools: initializing the factorial cache with max value = " + newMax);
       double[] newFacCache = new double[newMax + 1];
-      System.arraycopy(facCache, 0, newFacCache, 0, facCache.length);
-      for (int i = facCache.length; i <= newMax; i++) {
+      int toCopy = facCache==null? 0:facCache.length;
+      if(facCache!=null)
+         System.arraycopy(facCache, 0, newFacCache, 0, toCopy);
+      for (int i = toCopy; i <= newMax; i++) {
          newFacCache[i] = realFac(i);
       }
       max = newMax;
