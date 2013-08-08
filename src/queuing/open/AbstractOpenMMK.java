@@ -86,5 +86,12 @@ public abstract class AbstractOpenMMK extends AbstractMMK {
       return 0D;
    }
 
-
+   @Override
+   public String toString() {
+      StringBuilder sb = new StringBuilder();
+      for(int i=0;i<serviceTimes.length;i++){
+         sb.append(serviceTimes[i].toString()).append(" U = ").append(this.utilization(i));
+      }
+      return sb.toString();
+   }
 }

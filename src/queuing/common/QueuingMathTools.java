@@ -28,22 +28,31 @@ package queuing.common;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
- * @author Diego Didona, didona@gsd.inesc-id.pt
- *         Date: 01/10/12
+ * @author Diego Didona, didona@gsd.inesc-id.pt Date: 01/10/12
  */
 public class QueuingMathTools {
 
-
    private static double[] facCache;
-   private static int max = 0;
+   private static int max = 200;
    private static final Log log = LogFactory.getLog(QueuingMathTools.class);
+
+   private static AtomicBoolean ready = new AtomicBoolean(false);
+
+   static {
+      System.out.println("Initing Factorial up to " + max);
+      init(max);
+      ready.set(true);
+      System.out.println("Factorial initialized");
+   }
 
    private static void init(int newMax) {
       log.trace("QueuingMathTools: initializing the factorial cache with max value = " + newMax);
       double[] newFacCache = new double[newMax + 1];
-      int toCopy = facCache==null? 0:facCache.length;
-      if(facCache!=null)
+      int toCopy = facCache == null ? 0 : facCache.length;
+      if (facCache != null)
          System.arraycopy(facCache, 0, newFacCache, 0, toCopy);
       for (int i = toCopy; i <= newMax; i++) {
          newFacCache[i] = realFac(i);
@@ -62,8 +71,8 @@ public class QueuingMathTools {
 
 
    public static double fac(int n) {
-      if (n > max)
-         init(n);
+      if (n > max || !ready.get())
+         return realFac(n);
       return facCache[n];
    }
 

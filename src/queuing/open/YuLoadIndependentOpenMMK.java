@@ -63,7 +63,8 @@ public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
 
    @Override
    public double avgQueueingTime() {
-      return yuY() - 1;
+      throw new RuntimeException("Not supported");
+      //return yuY() - 1;
    }
 
 
@@ -72,18 +73,11 @@ public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
    }
 
 
-   /*
+
       public double getResponseTimeByServiceTime(double service) {
          double y = yuY();
          return service * y;
       }
-
-       protected double __responseTime(int clazz) {
-         double service = this.getClassServiceTime(clazz);
-         double y = yuY();
-         return service * y;
-      }
-      */
 
 
    public void forceUtilization(double r) {
@@ -98,6 +92,8 @@ public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
    public double debugB() {
       return yuB();
    }
+
+
 
 
 }
