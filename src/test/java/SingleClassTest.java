@@ -1,5 +1,3 @@
-package test;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import queuing.exceptions.UnstableQueueException;

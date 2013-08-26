@@ -1,10 +1,4 @@
-package test;
 
-import org.math.plot.Plot2DPanel;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.Arrays;
 
 /**
  * // TODO: Document this

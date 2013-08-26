@@ -1,5 +1,3 @@
-package test;
-
 /**
  * // TODO: Document this
  *

@@ -1,5 +1,3 @@
-package test;
-
 import queuing.exceptions.UnstableQueueException;
 import queuing.open.OpenClazz;
 import queuing.open.YuLoadIndependentOpenMMK;
