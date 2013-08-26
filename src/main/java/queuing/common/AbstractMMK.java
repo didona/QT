@@ -1,4 +1,4 @@
-/*
+package queuing.common;/*
  *
  *  * INESC-ID, Instituto de Engenharia de Sistemas e Computadores Investigação e Desevolvimento em Lisboa
  *  * Copyright 2013 INESC-ID and/or its affiliates and other
@@ -23,8 +23,6 @@
  *
  */
 
-package queuing.common;
-
 
 import queuing.exceptions.UnstableQueueException;
 
@@ -35,15 +33,10 @@ import queuing.exceptions.UnstableQueueException;
 public abstract class AbstractMMK implements Queue {
 
    protected double numServers;
-
    protected double ro;
-
    protected double additionalLoad;
-
    protected String ID;
-
-   protected boolean solved  = false;
-
+   protected boolean solved = false;
 
    public AbstractMMK(double numServers) {
       this.numServers = numServers;
@@ -67,9 +60,7 @@ public abstract class AbstractMMK implements Queue {
 
    public abstract double avgQueueingTime();
 
-
    protected abstract void flowInflowOut() throws UnstableQueueException;
-
 
    public void injectLoad(double additionalLoad) {
       this.additionalLoad = additionalLoad;

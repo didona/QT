@@ -1,4 +1,5 @@
-package queuing.exceptions;/*
+package  queuing.exceptions;
+/*
  * INESC-ID, Instituto de Engenharia de Sistemas e Computadores Investigação e Desevolvimento em Lisboa
  * Copyright 2013 INESC-ID and/or its affiliates and other
  * contributors as indicated by the @author tags. All rights reserved.

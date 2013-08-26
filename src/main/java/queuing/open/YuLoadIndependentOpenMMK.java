@@ -1,4 +1,4 @@
-/*
+package queuing.open;/*
  *
  *  * INESC-ID, Instituto de Engenharia de Sistemas e Computadores Investigação e Desevolvimento em Lisboa
  *  * Copyright 2013 INESC-ID and/or its affiliates and other
@@ -23,8 +23,6 @@
  *
  */
 
-package queuing.open;
-
 
 import queuing.common.QueuingMathTools;
 
@@ -38,6 +36,7 @@ public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
    private double yuA() {
       double ro = this.ro;
       double k = this.numServers;
+
       return Math.pow((k * ro), k) / ((1.0D - ro) * QueuingMathTools.fac((int) k));
    }
 
@@ -73,11 +72,10 @@ public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
    }
 
 
-
-      public double getResponseTimeByServiceTime(double service) {
-         double y = yuY();
-         return service * y;
-      }
+   public double getResponseTimeByServiceTime(double service) {
+      double y = yuY();
+      return service * y;
+   }
 
 
    public void forceUtilization(double r) {
@@ -92,8 +90,6 @@ public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
    public double debugB() {
       return yuB();
    }
-
-
 
 
 }

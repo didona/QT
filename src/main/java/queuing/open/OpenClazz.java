@@ -1,4 +1,4 @@
-/*
+package queuing.open;/*
  *
  *  * INESC-ID, Instituto de Engenharia de Sistemas e Computadores Investigação e Desevolvimento em Lisboa
  *  * Copyright 2013 INESC-ID and/or its affiliates and other
@@ -23,7 +23,6 @@
  *
  */
 
-package queuing.open;
 
 import queuing.common.Clazz;
 
@@ -35,10 +34,6 @@ public class OpenClazz extends Clazz {
 
    private double lambda;
 
-   public double getLambda() {
-      return lambda;
-   }
-
    public OpenClazz(int clazz) {
       super(clazz);
    }
@@ -48,6 +43,9 @@ public class OpenClazz extends Clazz {
       this.lambda = lambda;
    }
 
+   public double getLambda() {
+      return lambda;
+   }
 
    public void setLambda(double lambda) {
       this.lambda = lambda;

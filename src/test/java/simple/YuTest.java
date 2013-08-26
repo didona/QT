@@ -1,3 +1,5 @@
+package simple;
+
 /**
  * // TODO: Document this
  *

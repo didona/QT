@@ -1,4 +1,4 @@
-/*
+package queuing.open;/*
  *
  *  * INESC-ID, Instituto de Engenharia de Sistemas e Computadores Investigação e Desevolvimento em Lisboa
  *  * Copyright 2013 INESC-ID and/or its affiliates and other
@@ -23,14 +23,12 @@
  *
  */
 
-package queuing.open;
 
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import queuing.common.Clazz;
 import queuing.common.QueuingMathTools;
 import queuing.exceptions.UnstableQueueException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Diego Didona, didona@gsd.inesc-id.pt
@@ -40,16 +38,13 @@ import org.apache.commons.logging.LogFactory;
 public class LoadIndependentOpenMMK extends AbstractOpenMMK {
 
 
-   private double p0;
-
    private final static boolean debug = false;
    private final static Log log = LogFactory.getLog(LoadIndependentOpenMMK.class);
-
+   private double p0;
 
    public LoadIndependentOpenMMK(double numServers, OpenClazz... serviceTimes) {
       super(numServers, serviceTimes);
    }
-
 
    public double getResponseTimeByServiceTime(double service) {
       return service + this.avgQueueingTime();
@@ -62,11 +57,9 @@ public class LoadIndependentOpenMMK extends AbstractOpenMMK {
       this.p0 = this.computeP0(ro, servers);
    }
 
-
    public double getUtilization() {
       return this.ro;
    }
-
 
    @Override
    public double avgQueueingTime() {
@@ -75,8 +68,8 @@ public class LoadIndependentOpenMMK extends AbstractOpenMMK {
       return pQ / lambda * (ro / (1.0D - ro));
    }
 
-
    private double computeP0(double ro, double m) throws UnstableQueueException {
+
       double sum = (QueuingMathTools.pow(m * ro, m) / QueuingMathTools.fac((int) m)) * (1.0D / (1.0D - ro));
 
       for (double k = 0; k < m; k++) {
@@ -86,7 +79,6 @@ public class LoadIndependentOpenMMK extends AbstractOpenMMK {
       return 1.0D / sum;
    }
 
-
    protected double ro(double numServers) throws UnstableQueueException {
       double ro = 0D;
       double classRo = 0;
@@ -95,9 +87,10 @@ public class LoadIndependentOpenMMK extends AbstractOpenMMK {
          openClazz = (OpenClazz) c;
          if (openClazz.getServiceTime() != 0) {
             classRo = this.ro(numServers, openClazz);
-            log.trace("ID " + this.ID + " Class  = " + c.getClazz() + " L = " + openClazz.getLambda() + " S = " + openClazz.getServiceTime() + " Ro = " + classRo);
+            if (log.isTraceEnabled())
+               log.trace("ID " + this.ID + " Class  = " + c.getClazz() + " L = " + openClazz.getLambda() + " S = " + openClazz.getServiceTime() + " Ro = " + classRo);
             if (classRo >= 1) {
-               log.trace(this.ID + " unstable\n" + openClazz.toString(numServers));
+               if (log.isTraceEnabled()) log.trace(this.ID + " unstable\n" + openClazz.toString(numServers));
                throw new UnstableQueueException(this.ID + " unstable\n" + openClazz.toString(numServers));
             }
             ro += classRo;
@@ -105,12 +98,11 @@ public class LoadIndependentOpenMMK extends AbstractOpenMMK {
 
       }
       if (ro >= 1) {
-         log.trace(this.ID + " unstable as a whole. Ro is " + ro);
+         if (log.isTraceEnabled()) log.trace(this.ID + " unstable as a whole. Ro is " + ro);
          throw new UnstableQueueException(this.ID + " unstable as a whole. Ro is " + ro);
       }
       return ro;
    }
-
 
    private double ro(double numServers, OpenClazz openClazz) {
       return openClazz.getLambda() * openClazz.getServiceTime() / numServers;
@@ -127,18 +119,14 @@ public class LoadIndependentOpenMMK extends AbstractOpenMMK {
          System.out.println(o);
    }
 
-
    public double avgQueueingProb() {
       return this.avgQueueingProb(ro, p0, numServers);
    }
-
 
    private double avgQueueingProb(double ro, double p0, double m) {
       return (QueuingMathTools.pow(m * ro, m) / QueuingMathTools.fac((int) m)) * (p0 / (1.0D - ro));
 
    }
-
-
 
 
 }

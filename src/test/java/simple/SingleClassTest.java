@@ -1,3 +1,6 @@
+package simple;
+
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import queuing.exceptions.UnstableQueueException;
@@ -12,17 +15,13 @@ import queuing.open.YuLoadIndependentOpenMMK;
  */
 public class SingleClassTest {
 
+   private final static Log log = LogFactory.getLog(SingleClassTest.class);
+   private final static int DEFAULT_CLASS = 0;
    protected double minLambda = 1;
    protected double maxLambda = 100;
    protected double stepLambda = 1;
    protected double serviceTime;
    protected int numServers = 1;
-
-
-   private final static Log log = LogFactory.getLog(SingleClassTest.class);
-   private final static int DEFAULT_CLASS = 0;
-
-
 
    public SingleClassTest(double minLambda, double maxLambda, double stepLambda, double serviceTime, int numServers) {
       this.maxLambda = maxLambda;
@@ -48,7 +47,7 @@ public class SingleClassTest {
          }
          ys[i][0] = l;
          ys[i][1] = queue.getResponseTimeByServiceTime(o.getServiceTime());
-         System.out.println(l+";"+queue.utilization()+";"+queue.getResponseTimeByServiceTime(o.getServiceTime()));
+         System.out.println(l + ";" + queue.utilization() + ";" + queue.getResponseTimeByServiceTime(o.getServiceTime()));
          i++;
       }
       return ys;
