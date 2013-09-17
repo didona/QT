@@ -27,10 +27,12 @@ package queuing.open;/*
 import queuing.common.QueuingMathTools;
 
 /**
- * @author Diego Didona, didona@gsd.inesc-id.pt
- *         Date: 09/11/12
+ * @author Diego Didona, didona@gsd.inesc-id.pt Date: 09/11/12
  */
 public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
+
+   private double yuA;
+   private double yuB;
 
 
    private double yuA() {
@@ -53,8 +55,8 @@ public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
 
    private double yuY() {
       double k = this.numServers;
-      double a = yuA();
-      double b = yuB();
+      double a = yuA;
+      double b = yuB;
       double ro = this.ro;
       double den = (k * (a + b) * (1.0D - ro));
       return 1 + (a / den);
@@ -69,6 +71,8 @@ public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
 
    public YuLoadIndependentOpenMMK(double numServers, OpenClazz... serviceTimes) {
       super(numServers, serviceTimes);    //To change body of overridden methods use File | Settings | File Templates.
+      this.yuA = yuA();
+      this.yuB = yuB();
    }
 
 
