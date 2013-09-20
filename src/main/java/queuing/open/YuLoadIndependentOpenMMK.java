@@ -25,6 +25,7 @@ package queuing.open;/*
 
 
 import queuing.common.QueuingMathTools;
+import queuing.exceptions.UnstableQueueException;
 
 /**
  * @author Diego Didona, didona@gsd.inesc-id.pt Date: 09/11/12
@@ -71,10 +72,15 @@ public class YuLoadIndependentOpenMMK extends LoadIndependentOpenMMK {
 
    public YuLoadIndependentOpenMMK(double numServers, OpenClazz... serviceTimes) {
       super(numServers, serviceTimes);    //To change body of overridden methods use File | Settings | File Templates.
+
+   }
+
+   @Override
+   protected void flowInflowOut() throws UnstableQueueException {
+      super.flowInflowOut();    // TODO: Customise this generated block
       this.yuA = yuA();
       this.yuB = yuB();
    }
-
 
    public double getResponseTimeByServiceTime(double service) {
       double y = yuY();
