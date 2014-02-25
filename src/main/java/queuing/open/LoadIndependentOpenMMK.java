@@ -31,8 +31,7 @@ import queuing.common.QueuingMathTools;
 import queuing.exceptions.UnstableQueueException;
 
 /**
- * @author Diego Didona, didona@gsd.inesc-id.pt
- *         Date: 01/10/12
+ * @author Diego Didona, didona@gsd.inesc-id.pt Date: 01/10/12
  */
 
 public class LoadIndependentOpenMMK extends AbstractOpenMMK {
@@ -105,7 +104,15 @@ public class LoadIndependentOpenMMK extends AbstractOpenMMK {
    }
 
    private double ro(double numServers, OpenClazz openClazz) {
-      return openClazz.getLambda() * openClazz.getServiceTime() / numServers;
+      double lambda = openClazz.getLambda();
+      double s = openClazz.getServiceTime();
+      if (Double.isNaN(lambda) || Double.isNaN(s)) {
+         System.out.println("Returning zero utilization for clazz " + openClazz.getClazz() + " as you have a NaN " + openClazz);
+         return 0;
+      }
+      if (lambda == 0 || s == 0)
+         return 0;
+      return lambda * s / numServers;
    }
 
    @Override
